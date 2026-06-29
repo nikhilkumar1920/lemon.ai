@@ -1,0 +1,39 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  lemon:
+    image: ghcr.io/spirizeon/lemonx
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      - CLOUDFLARE_ACCOUNT_ID=${CLOUDFLARE_ACCOUNT_ID}
+      - CLOUDFLARE_API_KEY=${CLOUDFLARE_API_KEY}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - LEMONX=${LEMONX}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GITHUB_REF=${GITHUB_REF}
+      - GITHUB_SHA=${GITHUB_SHA}
+      - TARGET_REPO=/workspace
+      - LEMON_WORKSPACE=/workspace
+      - SKIP_TESTS=${SKIP_TESTS:-false}
+      - DEBUG=${DEBUG:-false}
+      - VERBOSE=${VERBOSE:-true}
+    volumes:
+      - .:/workspace
+    stop_grace_period: 5s
+
+volumes:
+  redis_data: 
