@@ -146,7 +146,7 @@ npm run test:e2e
 
 ## Documentation
 
-Full documentation is available at [spirizeon/lemonx/docs](https://github.com/nikhilkumar1920/lemon.ai):
+Full documentation is available at [NikhilKumar1920/lemon.ai](https://github.com/nikhilkumar1920/lemon.ai):
 
 - [Getting Started](docs/guide/getting-started.md)
 - [How It Works](docs/guide/how-it-works.md)
